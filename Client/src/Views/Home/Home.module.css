@@ -1,0 +1,13 @@
+.container{
+    background-image: url('https://wallpaperaccess.com/full/2714119.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed ;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}

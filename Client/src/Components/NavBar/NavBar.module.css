@@ -1,0 +1,29 @@
+.mainContainer{
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    justify-content: space-between;
+}
+
+button {
+    height: 50px;
+    width: 50px;
+    font-weight: bold;
+    justify-content: center;
+    margin: 35px;
+    border-radius: 10px;
+
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.img2{
+    max-height: 150px;
+    width: auto;
+    margin: 10px;
+    display: flex;
+    overflow: hidden;
+    padding: 20px;
+}
