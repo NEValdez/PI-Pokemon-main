@@ -1,16 +1,18 @@
 .container{
     border: 1px solid black;
+    background-color: rgb(36, 115, 189, 0.5);
     margin-top: 20px;
     margin-bottom: 20px;
     width: fit-content;
     height: fit-content;
-    border-radius: 30px;
     padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     justify-content: center;
+    border-top: 30px;
+    border-left: 30px;
 }
 
 img{
@@ -20,3 +22,192 @@ img{
     justify-content: space-between;
     /* border-radius: 50%; */
 }
+
+.allTypes{
+    display: flex;
+    flex-direction: row;
+}
+
+.fire{
+    background-color: red;
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.water{
+    background-color: rgb(53, 82, 175);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.grass{
+    background-color: rgb(37, 179, 49);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.normal{
+    background-color: rgb(83, 83, 83);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.fighting{
+    background-color: rgb(167, 26, 80);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.flying{
+    background-color: rgb(141, 160, 219);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.poison{
+    background-color: rgb(140, 52, 180);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.ground{
+    background-color: rgb(196, 116, 41);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.rock{
+    background-color: rgb(138, 134, 85);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.bug{
+    background-color: rgb(49, 126, 42);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.ghost{
+    background-color: rgb(42, 58, 110);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.steel{
+    background-color: rgb(63, 109, 94);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.electric{
+    background-color: rgb(230, 196, 48);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.psychic{
+    background-color: rgb(206, 80, 122);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.ice{
+    background-color: rgb(69, 204, 182);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.dragon{
+    background-color: rgb(0, 83, 160);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.dark{
+    background-color: rgb(31, 32, 37);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.fairy{
+    background-color: rgb(189, 111, 196);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.shadow{
+    background-color: rgb(80, 138, 97);
+    color: aliceblue;
+    border-radius: 5px;
+    width: 70px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

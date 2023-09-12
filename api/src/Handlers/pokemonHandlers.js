@@ -1,11 +1,20 @@
-const { crearPokemon, getPokemonById, getAllPokemons, searchPokemonByName } = require("../Controllers/pokemonController");
+const { crearPokemon, getPokemonById, getAllPokemons, searchPokemonByName, getTypesFromApi } = require("../Controllers/pokemonController");
 
 const getPokemonsHandler = async (req, res) => {
-    const { name } = req.query;
-
-    const results = name ? searchPokemonByName(name) : await getAllPokemons
-
+    const { name, limit, offset } = req.query;
+    console.log("limit offset",limit, offset);
+    const results = name ? searchPokemonByName(name) : await getAllPokemons(limit, offset)
     res.status(200).send(results);
+}
+
+const getPokemonByNameHandler = async (req, res) => {
+    const { name } = req.query;
+    try {
+        const results = name ? await searchPokemonByName(name) : await getAllPokemons();
+        res.status(200).send(results);
+    } catch {
+        res.status(400).send(`No existe un pokemon con el nombre ${name}`)
+    }
 }
 
 const getPokemonByIdHandler = async(req, res) => {
@@ -19,15 +28,10 @@ const getPokemonByIdHandler = async(req, res) => {
     }
 }
 
-// const getPokemonByName = (req, res) => {
-//     const { name } = req.query;
-//     res.status(200).send(`Detalle del pokemon de nombre ${name}`);
-// }
-
 const postPokemon = async (req, res) => {
+    const { name, sprites, health, attack, defense, speed, height, weight, type } = req.body;
     try {
-    const { name, sprites, health, attack, defense, speed, height, weight } = req.body;
-    const newPokemon = await crearPokemon(name, sprites, health, attack, defense, speed, height, weight);
+    const newPokemon = await crearPokemon(name, sprites, health, attack, defense, speed, height, weight, type);
     res.status(201).json(newPokemon);
     } catch (error) {
         res.status(400).json({error: error.message})
@@ -35,10 +39,11 @@ const postPokemon = async (req, res) => {
 
 }
 
-const getPokemonTypes = async () => {
+const getPokemonTypes = async (req, res) => {
     try {
-    const allTypes = await axios.get("https://pokeapi.co/api/v2/type").results
+    const allTypes = await getTypesFromApi()
     res.status(200).json(allTypes);
+    console.log(allTypes);
     } catch {
         res.status(500).json({ error: error.message })
     }
@@ -47,7 +52,7 @@ const getPokemonTypes = async () => {
 module.exports = {
     getPokemonsHandler,
     getPokemonByIdHandler,
-    // getPokemonByName,
+    getPokemonByNameHandler,
     postPokemon,
     getPokemonTypes
 };

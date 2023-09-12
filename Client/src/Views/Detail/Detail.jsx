@@ -12,16 +12,15 @@ export default function Detail(){
     useEffect(() => {
         const buscarData = async () => {
             try {
-            const infoApi = await axios(`https://pokeapi.co/api/v2/pokemon/${name}`);
-            const infoPokemon = infoApi.data;
-            console.log(infoPokemon);
-            if (infoPokemon.name) {
-                setPokemon(infoPokemon);
+            const infoApi = await axios.get(`http://localhost:3001/pokemons/name?name=${name}`);
+            console.log(infoApi.data);
+            if (infoApi.data.name) {
+                setPokemon(infoApi.data);
              } else {
-                window.alert('No hay pokemon con ese nombre');
-                history.push('/home');
-             }
+                 history.push('/home');
+                }
             } catch(error) {
+                // window.alert('No hay pokemon con ese nombre');
                 console.error("no hay pokemons con ese nombre", error);
              }
             }
@@ -34,16 +33,16 @@ export default function Detail(){
             <div className={style.pokedex}>
                 <div className={style.info}>
                     {pokemon.name && (<h1>{pokemon.id}. {pokemon.name.toUpperCase()}</h1>)}
-                    {pokemon.stats && pokemon.stats[0] && (<p><b>Vida: </b>{pokemon.stats[0].base_stat}</p>)}
-                    {pokemon.stats && pokemon.stats[1] && (<p><b>Ataque: </b>{pokemon.stats[1].base_stat}</p>)}
-                    {pokemon.stats && pokemon.stats[2] && (<p><b>Defensa: </b>{pokemon.stats[2].base_stat}</p>)}
-                    {pokemon.stats && pokemon.stats[5] && (<p><b>Velocidad: </b>{pokemon.stats[5].base_stat}</p>)}
+                    {pokemon.health && (<p><b>Vida: </b>{pokemon.health}</p>)}
+                    {pokemon.attack && (<p><b>Ataque: </b>{pokemon.health}</p>)}
+                    {pokemon.defense && (<p><b>Defensa: </b>{pokemon.health}</p>)}
+                    {pokemon.speed && (<p><b>Velocidad: </b>{pokemon.speed}</p>)}
                     {pokemon.height && (<p><b>Altura: </b>{pokemon.height}</p>)}
                     {pokemon.weight && (<p><b>Peso: </b>{pokemon.weight}</p>)}
                     {pokemon.types && (<p><b>Tipos: </b>{pokemon.types.map((types) => types.type.name.toUpperCase()).join(', ')}</p>)}
                 </div>
                 
-                    <img className={style.image} src={pokemon.sprites?.other["official-artwork"]?.front_default} alt={pokemon.name}/>
+                    <img className={style.image} src={pokemon.sprites} alt={pokemon.name}/>
                 
             </div>
         </div>

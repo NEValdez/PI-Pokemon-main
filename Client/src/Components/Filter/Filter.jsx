@@ -31,7 +31,6 @@ const FilterComponent = ({ selectedType, onFilterByType }) => {
         <option value="dark">Siniestro</option>
         <option value="fairy">Hada</option>
         <option value="shadow">Sombra</option>
-        {/* Agrega más opciones según los tipos disponibles */}
       </select>
     </div>
   );

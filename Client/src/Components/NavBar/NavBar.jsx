@@ -12,7 +12,8 @@ const NavBar = () => {
     const handleSearch = (search) => {
         dispatch(getPokemonByName(search))
         .then((pokemon) => {
-            history.push(`/detail/${pokemon.name}`);
+            console.log("getPokemonByName", search.toLowerCase());
+            history.push(`/detail/${search.toLowerCase()}`);
           })
           .catch((error) => {
             console.error("Error al buscar el Pokémon:", error);
@@ -20,10 +21,14 @@ const NavBar = () => {
       };
 
     return(
-        <div className={style.mainContainer}>
-            <img className={style.img2} src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/2560px-International_Pok%C3%A9mon_logo.svg.png" alt=""/>
-            <SearchBar onSearch={handleSearch}/> 
-            <button className={style.button} onClick={()=> history.push('/home')}>HOME</button>
+        <div>
+            <div className={style.mainContainer}>
+                <img className={style.img2} src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/2560px-International_Pok%C3%A9mon_logo.svg.png" alt=""/>
+                <SearchBar onSearch={handleSearch}/> 
+                <button className={style.button} onClick={()=> history.push('/home')}>HOME</button>
+                <button className={style.button} onClick={()=> history.push('/form')}>Crea tu pokemon!</button>            
+            </div>
+
         </div>
     )
 }

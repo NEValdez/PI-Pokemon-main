@@ -1,143 +1,237 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import axios from "axios"
+import NavBar from "../../Components/NavBar/NavBar"
+import style from "./Form.module.css"
+import { getAllTypes } from "../../Helpers/Helpers"
 
 const Form = () => {
 
     const [form, setForm] = useState({
-        Nombre:"",
-        Imagen:"",
-        Vida:"",
-        Ataque:"",
-        Defensa: "",
-        Velocidad:"",
-        Altura:"",
-        Peso:"",
-        Tipos:"",
+        name:"",
+        sprites:"",
+        health:"",
+        attack:"",
+        defense: "",
+        speed:"",
+        height:"",
+        weight:"",
+        type:[],
     })
 
+    const [typesList, setTypesList] = useState([]);
+
+        useEffect(() => {
+            async function fetchTypes() {
+            try {
+                const types = await getAllTypes();
+                setTypesList(types);
+            } catch (error) {
+                console.error("Error al obtener tipos:", error);
+            }
+            }
+
+            fetchTypes();
+        }, []);
+
+
     const [errors, setErrors] = useState({
-        Nombre:"",
-        Imagen:"",
-        Vida:"",
-        Ataque:"",
-        Defensa: "",
-        Velocidad:"",
-        Altura:"",
-        Peso:"",
-        Tipos:"",
+        name:"",
+        sprites:"",
+        health:"",
+        attack:"",
+        defense: "",
+        speed:"",
+        height:"",
+        weight:"",
+        type:"",
     })
 
     const changeHandler = (event) => {
         const property = event.target.name;
-        const value = event.target.value;
-
-        validate({...form,[property]:value});
-        setForm({...form,[property]:value})
+        let value;
+            if (event.target.type === "checkbox") {
+                value = handleCheckboxChange(event)
+                setForm({...form, type:value})
+            } else {
+                value = event.target.value;        
+                validate({...form, [property]:value});
+                setForm({...form, [property]:value})
+                }
     }
-    //const numberRegex = /^\d+$/
 
+    const handleCheckboxChange = (event) => {
+        const { name, checked } = event.target;
+        const updatedTypes = [...form.type];
+        if (checked) {
+            updatedTypes.push(name);
+            setForm({ ...form, type: updatedTypes });
+            
+        } else {
+            const index = updatedTypes.indexOf(name);
+            if (index !== -1) {
+                updatedTypes.splice(index, 1);
+            }
+            setForm({ ...form, type: updatedTypes });
+        }
+        return updatedTypes;
+      };
+    
     const validate = (form) => {
-        if(!/^\b(?:\w|-)+\b$/.test(form.Nombre)){
-            setErrors({...errors, Nombre:"Sólo debe contener letras"})
+        let newErrors = {}
+        const letraRegex = /^[A-Z]+$/i;
+        const numberRegex = /^\d+$/;
+        const regexURL = /^(ftp|http|https):\/\/[^ "]+$/;
+        if(letraRegex.test(form.Nombre)){
+            setErrors({...errors, name:""})
+        } else {
+            setErrors({...errors, name:"Sólo debe contener letras"})
         }
 
-        if(!/^\d+$/.test(form.Vida)){
-            setErrors({...errors, Vida:"Deben ser sólo números"})
+        if(regexURL.test(form.Imagen)){
+            setErrors({...errors, sprites:""})
+        } else {
+            setErrors({...errors, sprites:"Debe ser un URL"})
         }
 
-        if(!/^\d+$/.test(form.Ataque)){
-            setErrors({...errors, Vida:"Deben ser sólo números"})
+        if(numberRegex.test(form.health)){
+            setErrors({...errors, health:""})
+        } else {
+            setErrors({...errors, health:"Deben ser sólo números"})
         }
 
-        if(!/^\d+$/.test(form.Defensa)){
-            setErrors({...errors, Vida:"Deben ser sólo números"})
+        if(numberRegex.test(form.Ataque)){
+            setErrors({...errors, attack:""})
+        } else {
+            setErrors({...errors, attack:"Deben ser sólo números"})
         }
 
-        if(!/^\d+$/.test(form.Velocidad)){
-            setErrors({...errors, Vida:"Deben ser sólo números"})
+        if(numberRegex.test(form.defense)){
+            setErrors({...errors, defense:""})
+        } else {
+            setErrors({...errors, defense:"Deben ser sólo números"})
         }
 
-        if(!/^\d+$/.test(form.Altura)){
-            setErrors({...errors, Vida:"Deben ser sólo números"})
+        if(numberRegex.test(form.speed)){
+            setErrors({...errors, speed:""})
+        } else {
+            setErrors({...errors, speed:"Deben ser sólo números"})
         }
 
-        if(!/^\d+$/.test(form.Peso)){
-            setErrors({...errors, Vida:"Deben ser sólo números"})
+        if(numberRegex.test(form.height)){
+            setErrors({...errors, height:""})
+        } else {
+            setErrors({...errors, height:"Deben ser sólo números"})
         }
+
+        if(numberRegex.test(form.weight)){
+            setErrors({...errors, weight:""})
+        } else {
+            setErrors({...errors, weight:"Deben ser sólo números"})
+        }
+
+        setErrors(newErrors)
+ 
     }
 
     const submitHandler = async (event) => {
         event.preventDefault()
-
-        if (validate()) {
-        try{
-        await axios.post("http://localhost:3001/pokemons", form)
-        alert("Pokemon creado con exito");
-        setForm({
-            Nombre:"",
-            Imagen:"",
-            Vida:"",
-            Ataque:"",
-            Defensa: "",
-            Velocidad:"",
-            Altura:"",
-            Peso:"",
-            Tipos:"",
-        })} catch(error){
-            console.error("Error al crear el pokemon", error)
+        if (Object.values(errors).every((error)=> error === "")) {
+            try{                
+                await axios.post("http://localhost:3001/pokemons/pokemons", form)
+                alert("Pokemon creado exitosamente")
+                setForm({
+                    name:"",
+                    sprites:"",
+                    health:"",
+                    attack:"",
+                    defense: "",
+                    speed:"",
+                    height:"",
+                    weight:"",
+                    types:[],
+                })
+            setErrors({
+                name:"",
+                sprites:"",
+                health:"",
+                attack:"",
+                defense: "",
+                speed:"",
+                height:"",
+                weight:"",
+                types:"",
+            })
+            } catch(error){
+            window.alert("Error al crear el pokemon", error)
+            }
         }
     }
-}
-
-
     return(
+        <div className={style.container}>
         <form onSubmit={submitHandler}>
-            <div>
-                <label>Nombre: </label>
-                <input type="text" value={form.Nombre} onChange={changeHandler} name="Nombre"/>
-            </div>
+            <NavBar/>
+            <div className={style.form}>
+                <div className={style.inputs}>
+                    <label>Nombre: </label>
+                    <input type="text" value={form.name} onChange={changeHandler} name="name"/>
+                    {errors.name && <span>{errors.name}</span>}
+                </div>
 
-            <div>
-                <label>Imagen: </label>
-                <input type="text" value={form.Imagen} onChange={changeHandler} name="Imagen"/>
-            </div>
+                <div className={style.inputs}>
+                    <label>Imagen: </label>
+                    <input type="text" value={form.sprites} onChange={changeHandler} name="sprites"/>
+                    {errors.sprites && <span>{errors.sprites}</span>}
+                </div>
 
-            <div>
-                <label>Vida: </label>
-                <input type="text" value={form.Vida} onChange={changeHandler} name="Vida"/>
-            </div>
+                <div className={style.inputs}>
+                    <label>Vida: </label>
+                    <input type="text" value={form.health} onChange={changeHandler} name="health"/>
+                    {errors.health && <span>{errors.health}</span>}
+                </div>
 
-            <div>
-                <label>Ataque: </label>
-                <input type="text" value={form.Ataque} onChange={changeHandler} name="Ataque"/>
-            </div>
+                <div className={style.inputs}>
+                    <label>Ataque: </label>
+                    <input type="text" value={form.attack} onChange={changeHandler} name="attack"/>
+                    {errors.attack && <span>{errors.attack}</span>}
+                </div>
 
-            <div>
-                <label>Defensa: </label>
-                <input type="text" value={form.Defensa} onChange={changeHandler} name="Defensa"/>
-            </div>
+                <div className={style.inputs}>
+                    <label>Defensa: </label>
+                    <input type="text" value={form.defense} onChange={changeHandler} name="defense"/>
+                    {errors.defense && <span>{errors.defense}</span>}
+                </div>
 
-            <div>
-                <label>Velocidad: </label>
-                <input type="text" value={form.Velocidad} onChange={changeHandler} name="Velocidad"/>
-            </div>
+                <div className={style.inputs}>
+                    <label>Velocidad: </label>
+                    <input type="text" value={form.speed} onChange={changeHandler} name="speed"/>
+                    {errors.speed && <span>{errors.speed}</span>}
+                </div>
 
-            <div>
-                <label>Altura: </label>
-                <input type="text" value={form.Altura} onChange={changeHandler} name="Altura"/>
-            </div>
+                <div className={style.inputs}>
+                    <label>Altura: </label>
+                    <input type="text" value={form.height} onChange={changeHandler} name="height"/>
+                    {errors.height && <span>{errors.height}</span>}
+                </div>
 
-            <div>
-                <label>Peso: </label>
-                <input type="text" value={form.Peso} onChange={changeHandler} name="Peso"/>
-            </div>
+                <div className={style.inputs}>
+                    <label>Peso: </label>
+                    <input type="text" value={form.weight} onChange={changeHandler} name="weight"/>
+                    {errors.weight && <span>{errors.weight}</span>}
+                </div>
 
-            <div>
+                <div className={style.checkboxes}>
                 <label>Tipos: </label>
-                <input type="text" value={form.Tipos} onChange={changeHandler} name="Tipos"/>
+                    {typesList.map((type) => (
+                    <label key={type}>
+                        <input type="checkbox" name={type} checked={form.type.includes(type)} onChange={changeHandler}/>
+                        <label>{type.toUpperCase()}</label>
+                    </label>
+                    ))}
+                </div>
+            <button className={style.crearPokemon} type="submit">Crear pokemon</button>
             </div>
-            <button type="button">Crear pokemon</button>
         </form>
+        </div>
     )
 }
 

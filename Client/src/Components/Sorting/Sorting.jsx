@@ -5,6 +5,7 @@ const SortingOptions = ({ sortOrder, sortDirection, onSortChange }) => {
     <div>
       <label>Ordenar por:</label>
       <select value={sortOrder} onChange={(e) => onSortChange("order", e.target.value)}>
+        <option value="id">Por id</option>
         <option value="name">Nombre</option>
         <option value="attack">Ataque</option>
       </select>
